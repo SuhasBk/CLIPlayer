@@ -1,0 +1,36 @@
+plugins {
+    id 'java'
+    id "com.github.johnrengelman.shadow" version "7.1.2"
+}
+
+compileJava.options.encoding = "UTF-8"
+compileTestJava.options.encoding = "UTF-8"
+
+group 'com.saavncli'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+shadowJar {
+    archiveBaseName.set('Saavn')
+    manifest {
+        attributes (
+            'Main-Class': 'com.saavncli.Saavn'
+        )
+    }
+}
+
+dependencies {
+    implementation 'org.jsoup:jsoup:1.14.3'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+    implementation 'org.seleniumhq.selenium:selenium-java:3.141.59'
+    implementation 'io.github.bonigarcia:webdrivermanager:5.0.2'
+
+}
+
+test {
+    useJUnitPlatform()
+}
