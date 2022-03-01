@@ -5,3 +5,5 @@ A Java browser-automation CLI to search for, listen to, and download songs from 
 Build: ./gradlew shadowJar;
 
 Run: java -jar ./build/libs/*.jar
+
+Build & run together 😉: ./saavn.sh
