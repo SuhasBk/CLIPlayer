@@ -7,14 +7,14 @@ public class Song {
     private String artistName;
     private String time;
     private String songLink;
-    private WebElement playLink;
+    private WebElement contextMenu;
 
-    public Song(String songName, String artistName, String time, String songLink, WebElement playLink) {
+    public Song(String songName, String artistName, String time, String songLink, WebElement contextMenu) {
         this.songName = songName;
         this.artistName = artistName;
         this.time = time;
         this.songLink = songLink;
-        this.playLink = playLink;
+        this.contextMenu = contextMenu;
     }
 
     public String getSongName() {
@@ -49,11 +49,11 @@ public class Song {
         this.songLink = songLink;
     }
 
-    public WebElement getPlayLink() {
-        return playLink;
+    public WebElement getContextMenu() {
+        return contextMenu;
     }
 
-    public void setPlayLink(WebElement playLink) {
-        this.playLink = playLink;
+    public void setContextMenu(WebElement contextMenu) {
+        this.contextMenu = contextMenu;
     }
 }

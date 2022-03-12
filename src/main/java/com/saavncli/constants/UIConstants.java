@@ -7,7 +7,9 @@ public interface UIConstants {
         String SONG_NAME = "h4>a";
         String ARTIST_NAME = "p>a";
         String SONG_TIME = ".o-snippet__action-init.u-centi";
-        String PLAY_ICON = ".o-flag__img";
+
+        String CONTEXT_MENU = ".o-icon-ellipsis";
+        String PLAY_NOW = "a[data-menu-icon='q']";
     }
 
     interface PLAYER

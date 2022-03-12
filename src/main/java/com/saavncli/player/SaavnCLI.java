@@ -5,11 +5,11 @@ import com.saavncli.model.Song;
 import com.saavncli.utils.ApplicationUtils;
 import org.openqa.selenium.*;
 
+import javax.annotation.Nonnull;
 import java.util.List;
-import java.util.Scanner;
 import java.util.stream.Collectors;
 
-public class SaavnCLI {
+public class SaavnCLI implements GenericWebPlayer {
     private static final String BASE_URL = "https://jiosaavn.com";
     private static final Integer MAX_RESULTS = 5;
 
@@ -43,7 +43,9 @@ public class SaavnCLI {
     }
 
     public void initializePlayer(Song song) {
-        song.getPlayLink().click();
+        this.clickButtons(song.getContextMenu());
+        this.browser.findElement(By.cssSelector(UIConstants.SEARCH_PAGE.PLAY_NOW)).click();
+
         this.updateCurrentSong();
         this.PLAY_PAUSE_BUTTON = this.browser.findElement(By.cssSelector(UIConstants.PLAYER.PLAY_PAUSE_BUTTON));
         this.REPEAT_BUTTON = this.browser.findElement(By.cssSelector(UIConstants.PLAYER.REPEAT_BUTTON));
@@ -60,16 +62,6 @@ public class SaavnCLI {
                 } catch (Exception e) {}
             }
         }).start();
-    }
-
-    public void chooseAndPlay(Scanner sc, List<Song> songs) {
-        for(Song song: songs) {
-            String detail = String.format("\n%d: %-15s\t\t%-15s\t\t%-15s\n", songs.indexOf(song)+1, song.getSongName(),
-                    song.getArtistName(), song.getTime());
-            System.out.println(detail);
-        }
-        int choice = ApplicationUtils.getIntegerInput(sc, "Enter the choice from above\n> ", songs.size());
-        this.initializePlayer(songs.get(choice - 1));
     }
 
     public void togglePlayPause() {
@@ -98,7 +90,7 @@ public class SaavnCLI {
         }
     }
 
-    public boolean toggleRepeat() {
+    public Boolean toggleRepeat() {
         WebElement repeatButton = this.REPEAT_BUTTON;
         if(isRepeatOn) {
             this.clickButtons(repeatButton);
@@ -138,7 +130,7 @@ public class SaavnCLI {
         this.executor.executeScript(command);
     }
 
-    public void clickButtons(WebElement element) {
+    public void clickButtons(@Nonnull WebElement element) {
         this.executor.executeScript(UIConstants.JS.CLICK_COMMAND, element);
     }
 }

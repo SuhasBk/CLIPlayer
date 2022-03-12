@@ -1,4 +1,4 @@
-package com.saavncli.player;
+package com.saavncli.utils;
 
 import org.jsoup.Jsoup;
 
@@ -16,7 +16,7 @@ public class SongLyrics {
             String lyrics = Jsoup.connect(first)
                     .get()
                     .select("div.col-xs-12.col-lg-8.text-center>div").get(4)
-                    .text();
+                    .wholeText();
 
             System.out.println(lyrics);
         } catch (Exception e) {

@@ -1,4 +1,4 @@
-package com.saavncli.player;
+package com.saavncli.utils;
 
 import com.saavncli.utils.ApplicationUtils;
 import org.jsoup.Jsoup;
@@ -37,9 +37,9 @@ public class YoutubeBrowser {
             Process proc = ApplicationUtils.downloadYTMP3(url);
             BufferedReader op = new BufferedReader(new InputStreamReader(proc.getInputStream()));
             while ((s = op.readLine()) != null) {
-                System.out.println(s);
+                System.out.print(s + "\r");
             }
-            System.out.println("\nMP3 file successfully downloaded! 🥳\n");
+            System.out.println("\rMP3 file successfully downloaded! 🥳\n");
         }
     }
 }

@@ -2,60 +2,43 @@ package com.saavncli;
 
 import com.saavncli.model.Song;
 import com.saavncli.player.SaavnCLI;
-import com.saavncli.player.SongLyrics;
-import com.saavncli.player.YoutubeBrowser;
 import com.saavncli.utils.ApplicationUtils;
-import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.By;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
+import com.saavncli.utils.BackgroundBrowser;
+import com.saavncli.utils.SongLyrics;
+import com.saavncli.utils.YoutubeBrowser;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
-import java.util.concurrent.TimeUnit;
 
 public class Saavn {
+
     public static void main(String[] args) {
         WebDriver browser = null;
 
         try {
-            WebDriverManager.chromedriver().setup();
-        } catch(Exception e) {
-            System.out.println("\n Can't start the application. Browser driver issues. \n Ciao.");
-            System.exit(1);
-        }
+            if(args.length == 0){
+                browser = BackgroundBrowser.getChrome(false);
+//                browser = BackgroundBrowser.getFirefox(false);
+            } else {
+                browser = BackgroundBrowser.getChrome(true);
+//                browser = BackgroundBrowser.getFirefox(true);
+            }
 
-        if(args.length == 0) {
-//        if (args.length > 0 && args[0].equals("DEBUG")) {
-            ChromeOptions options = new ChromeOptions()
-                    .addArguments("--headless")
-                    .addArguments("start-maximized")
-                    .addArguments("--window-size=1400,600");
-            browser = new ChromeDriver(options);
-        } else {
-            browser = new ChromeDriver();
-            browser.manage().window().maximize();
-        }
-
-        browser.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-
-        try {
             System.out.println("\nWelcome to Saavn CLI! 🙌\n\nWhat would you like to listen today? 😁\n");
 
             Scanner sc = new Scanner(System.in);
             SaavnCLI cli = new SaavnCLI(browser);
             String query = ApplicationUtils.getSongName(sc);
             List<Song> results = cli.search(query);
+
             if(results.size() == 0) {
                 System.out.println("No results found! Bye! 😕");
                 throw new Exception("QUIT");
             }
-            cli.chooseAndPlay(sc, results);
+
+            int choice = chooseAndPlay(sc, results);
+            cli.initializePlayer(results.get(choice - 1));
 
             String prompt = "\n'1' : New Song\n'2' : Next Song\n'3' : " +
                     "Play/Pause\n'4' : Previous Song\n'5' : Seek Song\n'6' : Player Info\n" +
@@ -70,11 +53,14 @@ public class Saavn {
                         query = ApplicationUtils.getSongName(sc);
                         System.out.println("\nSearching for " + query + "\n");
                         results = cli.search(query);
+
                         if(results.size() == 0) {
                             System.out.println("No results found! Try again! 😕");
                             break;
                         }
-                        cli.chooseAndPlay(sc, results);
+
+                        choice = chooseAndPlay(sc, results);
+                        cli.initializePlayer(results.get(choice - 1));
                         break;
                     case 2:
                         cli.nextSong();
@@ -101,7 +87,7 @@ public class Saavn {
                             System.out.println("\nCurrent song will not be repeated 🔂❌\n");
                         }
                         break;
-                    case 8 :
+                    case 8:
                         cli.updateCurrentSong();
                         String lyricsQuery = ApplicationUtils.getSearchQuery(cli.currentSong.getSongName(), cli.currentSong.getArtistName());
                         SongLyrics.printLyrics(lyricsQuery);
@@ -114,6 +100,8 @@ public class Saavn {
                         break;
                     case 10:
                         throw new Exception("QUIT");
+                    case 50:
+                        ApplicationUtils.takeErrorScreenshot(browser);
                     default:
                         System.out.println("Nice!");
                 }
@@ -129,5 +117,21 @@ public class Saavn {
             if(browser != null) browser.quit();
             System.exit(0);
         }
+    }
+
+    private static int chooseAndPlay(Scanner sc, List<Song> results) {
+        int choice;
+
+        for(Song song: results) {
+            String detail = String.format("\n%d: %-15s\t\t%-15s\t\t%-15s\n", results.indexOf(song) + 1,
+                    song.getSongName(),
+                    song.getArtistName(), song.getTime());
+            System.out.println(detail);
+        }
+
+        choice = ApplicationUtils.getIntegerInput(sc, "Enter the choice from above\n> ",
+                results.size());
+
+        return choice;
     }
 }

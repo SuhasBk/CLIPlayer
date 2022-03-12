@@ -6,14 +6,15 @@ import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class ApplicationUtils {
 
     public static String getSongName(Scanner sc) {
         System.out.print("Enter the song name:\n> ");
-        String query = sc.nextLine();
-        return query;
+        return sc.nextLine();
     }
 
     public static Song mapSearchResult(WebElement result) {
@@ -22,7 +23,7 @@ public class ApplicationUtils {
                 result.findElement(By.cssSelector(UIConstants.SEARCH_PAGE.ARTIST_NAME)).getText(),
                 result.findElements(By.cssSelector(UIConstants.SEARCH_PAGE.SONG_TIME)).get(1).getText(),
                 result.findElement(By.cssSelector(UIConstants.SEARCH_PAGE.SONG_NAME)).getAttribute("href"),
-                result.findElement(By.cssSelector(UIConstants.SEARCH_PAGE.PLAY_ICON))
+                result.findElement(By.cssSelector(UIConstants.SEARCH_PAGE.CONTEXT_MENU))
         );
     }
 
@@ -43,7 +44,7 @@ public class ApplicationUtils {
         TakesScreenshot ss = (TakesScreenshot) browser;
         File src = ss.getScreenshotAs(OutputType.FILE);
         try {
-            File dest = new File("/tmp/saavn-cli/error.png");
+            File dest = new File(Files.createTempFile("err", ".png").toAbsolutePath().toString());
             FileUtils.copyFile(src, dest);
             Runtime.getRuntime().exec("open " + dest.getAbsolutePath());
         } catch (Exception ex) {
@@ -62,8 +63,8 @@ public class ApplicationUtils {
             int maxMinutes = Integer.parseInt(max.split(":")[0]);
             int maxSeconds = Integer.parseInt(max.split(":")[1]);
 
-            System.out.println(String.format("\nThe total duration of the track is : %s.\nThe current duration of the " +
-                    "track is : %s.\nEnter the new time in '[mm:ss]' format :\n> ", max, curr));
+            System.out.printf("\nThe total duration of the track is : %s.\nThe current duration of the " +
+                    "track is : %s.\nEnter the new time in '[mm:ss]' format :\n> %n", max, curr);
 
             String user_time = sc.nextLine();
 
@@ -84,8 +85,7 @@ public class ApplicationUtils {
 
     public static Process downloadYTMP3(String url) throws Exception {
         String[] downloadCommand = {"youtube-dl", "--extract-audio", "--audio-format", "mp3", url};
-        Process ytProc = Runtime.getRuntime().exec(downloadCommand);
-        return ytProc;
+        return Runtime.getRuntime().exec(downloadCommand);
     }
 
     public static String getSearchQuery(String songName, String artistName) {
