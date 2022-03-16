@@ -17,6 +17,7 @@ public class YoutubeBrowser {
         String url = "";
         String doc = null;
         try {
+            query = query.replaceAll("\"", "'");
             doc = Jsoup.connect(BASE_URL + "/results?search_query=" + query)
                     .get()
                     .outerHtml();
