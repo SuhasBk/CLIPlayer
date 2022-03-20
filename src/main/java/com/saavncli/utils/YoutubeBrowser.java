@@ -1,6 +1,5 @@
 package com.saavncli.utils;
 
-import com.saavncli.utils.ApplicationUtils;
 import org.jsoup.Jsoup;
 
 import java.io.BufferedReader;
