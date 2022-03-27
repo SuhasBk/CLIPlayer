@@ -18,11 +18,13 @@ public class Saavn {
 
         try {
             if(args.length == 0){
-                browser = BackgroundBrowser.getChrome(false);
+//                browser = BackgroundBrowser.getChrome(false);
 //                browser = BackgroundBrowser.getFirefox(false);
+                browser = BackgroundBrowser.getEdge(false);
             } else {
-                browser = BackgroundBrowser.getChrome(true);
+//                browser = BackgroundBrowser.getChrome(true);
 //                browser = BackgroundBrowser.getFirefox(true);
+                browser = BackgroundBrowser.getEdge(true);
             }
 
             System.out.println("\nWelcome to Saavn CLI! 🙌\n\nWhat would you like to listen today? 😁\n");
