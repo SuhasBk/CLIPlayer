@@ -91,4 +91,8 @@ public class ApplicationUtils {
     public static String getSearchQuery(String songName, String artistName) {
         return songName + " " + artistName;
     }
+
+    public static void clickWebElement(JavascriptExecutor executor, WebElement element) {
+        executor.executeScript(UIConstants.JS.CLICK_COMMAND, element);
+    }
  }

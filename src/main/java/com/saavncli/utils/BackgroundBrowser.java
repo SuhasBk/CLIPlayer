@@ -13,6 +13,8 @@ import java.util.concurrent.TimeUnit;
 
 public class BackgroundBrowser {
 
+    private static Integer TIMEOUT = 10;
+
     public static WebDriver getChrome(Boolean debug) {
         WebDriver browser = null;
 
@@ -30,7 +32,7 @@ public class BackgroundBrowser {
                 browser.manage().window().maximize();
             }
 
-            browser.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+            browser.manage().timeouts().implicitlyWait(TIMEOUT, TimeUnit.SECONDS);
         } catch(Exception e) {
             System.out.println("\n Can't start the application. Browser driver issues. \n Ciao.\n\n" + e);
             System.exit(1);
@@ -55,7 +57,7 @@ public class BackgroundBrowser {
                 browser.manage().window().maximize();
             }
 
-            browser.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+            browser.manage().timeouts().implicitlyWait(TIMEOUT, TimeUnit.SECONDS);
         } catch(Exception e) {
             System.out.println("\n Can't start the application. Browser driver issues. \n Ciao.\n\n" + e);
             System.exit(1);
@@ -80,7 +82,7 @@ public class BackgroundBrowser {
                 browser.manage().window().maximize();
             }
 
-            browser.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+            browser.manage().timeouts().implicitlyWait(TIMEOUT, TimeUnit.SECONDS);
         } catch(Exception e) {
             System.out.println("\n Can't start the application. Browser driver issues. \n Ciao.\n\n" + e);
             System.exit(1);

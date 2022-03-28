@@ -131,6 +131,6 @@ public class SaavnCLI implements GenericWebPlayer {
     }
 
     public void clickButtons(@Nonnull WebElement element) {
-        this.executor.executeScript(UIConstants.JS.CLICK_COMMAND, element);
+        ApplicationUtils.clickWebElement(this.executor, element);
     }
 }

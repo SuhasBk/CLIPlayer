@@ -22,6 +22,7 @@ public interface UIConstants {
 
         String SONG_NAME = "#player figcaption h4 a";
         String ARTIST_NAME = "#player figcaption p a";
+        String CURRENT_SONG_MENU = "#player_ellipsis";
     }
 
     interface JS
@@ -30,5 +31,14 @@ public interface UIConstants {
         String GET_MAX_VOLUME = "return MUSIC_PLAYER.getVolume()";
         String SEEK_TIME = "MUSIC_PLAYER.seek(%s)";
         String CLICK_COMMAND = "arguments[0].click();";
+    }
+
+    interface LYRICS
+    {
+//        String SEARCH_RESULTS_LINKS = "td.text-left.visitedlyr";
+//        String LYRICS_DIV = "div.col-xs-12.col-lg-8.text-center>div";
+        String SONG_DETAILS = "a[title='Song Details & Lyrics']";
+        String LYRICS_LINK = "a[title='Song Lyrics']";
+        String LYRICS_TEXT = ".u-disable-select p";
     }
 }

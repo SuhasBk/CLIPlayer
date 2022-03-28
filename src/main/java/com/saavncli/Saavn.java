@@ -92,7 +92,7 @@ public class Saavn {
                     case 8:
                         cli.updateCurrentSong();
                         String lyricsQuery = ApplicationUtils.getSearchQuery(cli.currentSong.getSongName(), cli.currentSong.getArtistName());
-                        SongLyrics.printLyrics(lyricsQuery);
+                        SongLyrics.printLyrics(browser);
                         break;
                     case 9:
                         cli.updateCurrentSong();

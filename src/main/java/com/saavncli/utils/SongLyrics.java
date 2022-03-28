@@ -1,26 +1,38 @@
 package com.saavncli.utils;
 
-import org.jsoup.Jsoup;
+import com.saavncli.constants.UIConstants;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
 
 public class SongLyrics {
-    public static void printLyrics(String query) {
+
+    public static void printLyrics(WebDriver browser) {
         try {
-            String first = Jsoup.connect("https://search.azlyrics.com/search.php?q=" + query)
-                    .get()
-                    .body()
-                    .selectFirst("td.text-left.visitedlyr")
-                    .getElementsByTag("a")
-                    .first()
-                    .attr("href");
+//            String first = Jsoup.connect("https://search.azlyrics.com/search.php?q=" + query)
+//                    .get()
+//                    .body()
+//                    .selectFirst(UIConstants.LYRICS.SEARCH_RESULTS_LINKS)
+//                    .getElementsByTag("a")
+//                    .first()
+//                    .attr("href");
+//
+//            String lyrics = Jsoup.connect(first)
+//                    .get()
+//                    .select(UIConstants.LYRICS.LYRICS_DIV).get(4)
+//                    .wholeText();
 
-            String lyrics = Jsoup.connect(first)
-                    .get()
-                    .select("div.col-xs-12.col-lg-8.text-center>div").get(4)
-                    .wholeText();
+            JavascriptExecutor exe = (JavascriptExecutor) browser;
 
-            System.out.println(lyrics);
+            ApplicationUtils.clickWebElement(exe, browser.findElement(By.cssSelector(UIConstants.PLAYER.CURRENT_SONG_MENU)));
+            ApplicationUtils.clickWebElement(exe, browser.findElement(By.cssSelector(UIConstants.LYRICS.SONG_DETAILS)));
+            ApplicationUtils.clickWebElement(exe, browser.findElement(By.cssSelector(UIConstants.LYRICS.LYRICS_LINK)));
+
+            String lyrics = browser.findElement(By.cssSelector(UIConstants.LYRICS.LYRICS_TEXT)).getText();
+
+            System.out.println("\n" + lyrics);
         } catch (Exception e) {
-            System.out.println("\nLyrics not found.. sorry 😓\n");
+            System.out.println("\nLyrics not found... sorry 😓\n");
         }
     }
 }
