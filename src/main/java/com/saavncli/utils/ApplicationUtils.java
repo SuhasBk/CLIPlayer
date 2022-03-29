@@ -40,6 +40,19 @@ public class ApplicationUtils {
         return choice;
     }
 
+    public static Integer getIntegerInput(Scanner sc, String prompt) {
+        int choice = 0;
+        while (choice <= 0) {
+            try {
+                System.out.print(prompt);
+                choice = Integer.parseInt(sc.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("\nNumber dude, number! 😑️");
+            }
+        }
+        return choice;
+    }
+
     public static void takeErrorScreenshot(WebDriver browser) {
         TakesScreenshot ss = (TakesScreenshot) browser;
         File src = ss.getScreenshotAs(OutputType.FILE);
@@ -94,5 +107,17 @@ public class ApplicationUtils {
 
     public static void clickWebElement(JavascriptExecutor executor, WebElement element) {
         executor.executeScript(UIConstants.JS.CLICK_COMMAND, element);
+    }
+
+    public static void clickWebElement(JavascriptExecutor executor, WebElement element, Double suspendTime) {
+        executor.executeScript(UIConstants.JS.CLICK_COMMAND, element);
+        sleep(suspendTime);
+    }
+
+    public static void sleep(Double seconds) {
+        try {
+            Long ms = seconds.longValue() * 1000;
+            Thread.sleep(ms);
+        } catch (InterruptedException e) {}
     }
  }

@@ -48,7 +48,7 @@ public class Saavn {
                     ": Close Saavn\n\nEnter your choice...\n> ";
 
             while (true) {
-                int user_choice = ApplicationUtils.getIntegerInput(sc, prompt, 11);
+                int user_choice = ApplicationUtils.getIntegerInput(sc, prompt);
 
                 switch (user_choice) {
                     case 1:
@@ -92,7 +92,7 @@ public class Saavn {
                     case 8:
                         cli.updateCurrentSong();
                         String lyricsQuery = ApplicationUtils.getSearchQuery(cli.currentSong.getSongName(), cli.currentSong.getArtistName());
-                        SongLyrics.printLyrics(browser);
+                        SongLyrics.printLyrics(browser, lyricsQuery);
                         break;
                     case 9:
                         cli.updateCurrentSong();

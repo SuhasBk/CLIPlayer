@@ -35,10 +35,11 @@ public interface UIConstants {
 
     interface LYRICS
     {
-//        String SEARCH_RESULTS_LINKS = "td.text-left.visitedlyr";
-//        String LYRICS_DIV = "div.col-xs-12.col-lg-8.text-center>div";
+        String SEARCH_RESULTS_LINKS = "td.text-left.visitedlyr";
+        String LYRICS_DIV = "div.col-xs-12.col-lg-8.text-center>div";
         String SONG_DETAILS = "a[title='Song Details & Lyrics']";
         String LYRICS_LINK = "a[title='Song Lyrics']";
         String LYRICS_TEXT = ".u-disable-select p";
+        String LANGUAGE = "span.u-visible-visually\\@lg";
     }
 }
