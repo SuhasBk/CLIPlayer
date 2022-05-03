@@ -133,4 +133,10 @@ public class SaavnCLI implements GenericWebPlayer {
     public void clickButtons(@Nonnull WebElement element) {
         ApplicationUtils.clickWebElement(this.executor, element);
     }
+
+    public void getShareLink() {
+        this.updateCurrentSong();
+        String link = this.currentSong.getSongLink();
+        System.out.println("\n👐 Share this link: " + link +" 👐\n");
+    }
 }

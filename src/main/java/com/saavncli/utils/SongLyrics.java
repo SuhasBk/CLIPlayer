@@ -9,11 +9,10 @@ import org.openqa.selenium.WebDriver;
 public class SongLyrics {
 
     public static void printLyrics(WebDriver browser, String query) {
+        String lyrics = null;
+        JavascriptExecutor exe = (JavascriptExecutor) browser;
+
         try {
-            String lyrics = null;
-
-            JavascriptExecutor exe = (JavascriptExecutor) browser;
-
             ApplicationUtils.clickWebElement(exe,
                     browser.findElement(By.cssSelector(UIConstants.PLAYER.CURRENT_SONG_MENU)), 1D);
             ApplicationUtils.clickWebElement(exe,

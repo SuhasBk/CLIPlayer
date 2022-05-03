@@ -7,7 +7,6 @@ import org.openqa.selenium.*;
 
 import java.io.File;
 import java.nio.file.Files;
-import java.util.Optional;
 import java.util.Scanner;
 
 public class ApplicationUtils {
@@ -120,4 +119,4 @@ public class ApplicationUtils {
             Thread.sleep(ms);
         } catch (InterruptedException e) {}
     }
- }
+}

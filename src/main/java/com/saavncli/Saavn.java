@@ -32,6 +32,7 @@ public class Saavn {
             Scanner sc = new Scanner(System.in);
             SaavnCLI cli = new SaavnCLI(browser);
             String query = ApplicationUtils.getSongName(sc);
+            System.out.println("\nSearching for " + query + "\n");
             List<Song> results = cli.search(query);
 
             if(results.size() == 0) {
@@ -42,10 +43,19 @@ public class Saavn {
             int choice = chooseAndPlay(sc, results);
             cli.initializePlayer(results.get(choice - 1));
 
-            String prompt = "\n'1' : New Song\n'2' : Next Song\n'3' : " +
-                    "Play/Pause\n'4' : Previous Song\n'5' : Seek Song\n'6' : Player Info\n" +
-                    "'7' : Toggle Repeat\n'8' : Lyrics for Current Song...\n'9' : Download current song...\n'10' " +
-                    ": Close Saavn\n\nEnter your choice...\n> ";
+            String prompt = "\n" +
+                    "'1' : New Song\n" +
+                    "'2' : Next Song\n" +
+                    "'3' : Play/Pause\n" +
+                    "'4' : Previous Song\n" +
+                    "'5' : Seek Song\n" +
+                    "'6' : Player Info\n" +
+                    "'7' : Toggle Repeat\n" +
+                    "'8' : Lyrics for Current Song...\n" +
+                    "'9' : Download current song...\n" +
+                    "'10' : Share this song...\n" +
+                    "'11' : Close Saavn\n" +
+                    "\nEnter your choice...\n> ";
 
             while (true) {
                 int user_choice = ApplicationUtils.getIntegerInput(sc, prompt);
@@ -101,6 +111,9 @@ public class Saavn {
                         YoutubeBrowser.downloadVideo(url);
                         break;
                     case 10:
+                        cli.getShareLink();
+                        break;
+                    case 11:
                         throw new Exception("QUIT");
                     case 50:
                         ApplicationUtils.takeErrorScreenshot(browser);
