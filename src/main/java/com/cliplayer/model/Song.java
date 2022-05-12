@@ -1,4 +1,4 @@
-package com.saavncli.model;
+package com.cliplayer.model;
 
 import org.openqa.selenium.WebElement;
 

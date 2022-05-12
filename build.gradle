@@ -6,7 +6,7 @@ plugins {
 compileJava.options.encoding = "UTF-8"
 compileTestJava.options.encoding = "UTF-8"
 
-group 'com.saavncli'
+group 'com.cliplayer'
 version '1.0-SNAPSHOT'
 
 repositories {
@@ -14,10 +14,10 @@ repositories {
 }
 
 shadowJar {
-    archiveBaseName.set('Saavn')
+    archiveBaseName.set('CLIPlayer')
     manifest {
         attributes (
-            'Main-Class': 'com.saavncli.Saavn'
+            'Main-Class': 'com.cliplayer.CLIPlayer'
         )
     }
 }
@@ -26,7 +26,7 @@ dependencies {
     implementation 'org.jsoup:jsoup:1.14.3'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
-    implementation 'org.seleniumhq.selenium:selenium-java:4.1.3'
+    implementation 'org.seleniumhq.selenium:selenium-java:4.1.4'
     implementation 'io.github.bonigarcia:webdrivermanager:5.1.1'
 
 }

@@ -1,4 +1,4 @@
-package com.saavncli.utils;
+package com.cliplayer.utils;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
@@ -13,7 +13,10 @@ import java.util.concurrent.TimeUnit;
 
 public class BackgroundBrowser {
 
-    private static Integer TIMEOUT = 10;
+    private static final Integer TIMEOUT = 10;
+    private static final String USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 " +
+            "(KHTML, like Gecko) Chrome/101.0.4951.41 Safari/537.36 Edg/101.0.1210.32";
+
 
     public static WebDriver getChrome(Boolean debug) {
         WebDriver browser = null;
@@ -22,11 +25,11 @@ public class BackgroundBrowser {
             WebDriverManager.chromedriver().setup();
 
             if(!debug) {
-                ChromeOptions options = new ChromeOptions()
+                browser = new ChromeDriver(new ChromeOptions()
                         .addArguments("--headless")
                         .addArguments("start-maximized")
-                        .addArguments("--window-size=1400,600");
-                browser = new ChromeDriver(options);
+                        .addArguments("--window-size=1400,600")
+                        .addArguments(String.format("--user-agent=%s", USER_AGENT)));
             } else {
                 browser = new ChromeDriver();
                 browser.manage().window().maximize();
@@ -51,7 +54,8 @@ public class BackgroundBrowser {
                 browser = new FirefoxDriver(new FirefoxOptions()
                         .setHeadless(true)
                         .addArguments("-height 1400")
-                        .addArguments("-width 600"));
+                        .addArguments("-width 600")
+                        .addPreference("general.useragent.override", USER_AGENT));
             } else {
                 browser = new FirefoxDriver();
                 browser.manage().window().maximize();
@@ -76,7 +80,8 @@ public class BackgroundBrowser {
                 browser = new EdgeDriver(new EdgeOptions()
                         .setHeadless(true)
                         .addArguments("start-maximized")
-                        .addArguments("--window-size=1400,600"));
+                        .addArguments("--window-size=1400,600")
+                        .addArguments(String.format("--user-agent=%s", USER_AGENT)));
             } else {
                 browser = new EdgeDriver();
                 browser.manage().window().maximize();

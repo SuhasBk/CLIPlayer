@@ -1,5 +1,6 @@
-package com.saavncli.utils;
+package com.cliplayer.utils;
 
+import com.saavn.player.utils.SaavnUtils;
 import org.jsoup.Jsoup;
 
 import java.io.BufferedReader;

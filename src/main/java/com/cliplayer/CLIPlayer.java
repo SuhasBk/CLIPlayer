@@ -1,36 +1,44 @@
-package com.saavncli;
+package com.cliplayer;
 
-import com.saavncli.model.Song;
-import com.saavncli.player.SaavnCLI;
-import com.saavncli.utils.ApplicationUtils;
-import com.saavncli.utils.BackgroundBrowser;
-import com.saavncli.utils.SongLyrics;
-import com.saavncli.utils.YoutubeBrowser;
+import com.cliplayer.model.Song;
+import com.cliplayer.player.GenericWebPlayer;
+import com.cliplayer.utils.ApplicationUtils;
+import com.saavn.player.SaavnCLI;
+import com.saavn.player.utils.SaavnUtils;
+import com.cliplayer.utils.BackgroundBrowser;
+import com.cliplayer.utils.SongLyrics;
+import com.cliplayer.utils.YoutubeBrowser;
+import com.ytmusic.player.YTMusicCLI;
 import org.openqa.selenium.WebDriver;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
-public class Saavn {
+public class CLIPlayer {
 
     public static void main(String[] args) {
+        GenericWebPlayer cli = null;
+        Scanner sc = new Scanner(System.in);
         WebDriver browser = null;
+        Map registeredServices = ApplicationUtils.getRegisteredServices();
 
         try {
-            if(args.length == 0){
-//                browser = BackgroundBrowser.getChrome(false);
-//                browser = BackgroundBrowser.getFirefox(false);
-                browser = BackgroundBrowser.getEdge(false);
-            } else {
-//                browser = BackgroundBrowser.getChrome(true);
-//                browser = BackgroundBrowser.getFirefox(true);
-                browser = BackgroundBrowser.getEdge(true);
+            browser = BackgroundBrowser.getEdge(args.length != 0);
+
+            System.out.println("\nWelcome to CLI Music Player! 🙌");
+
+            int serviceId = ApplicationUtils.getIntegerInput(sc,
+                    "\n\nService, service which service do you choose? 😁\n" +
+                    "'1' : Saavn\n" +
+                    "'2' : YouTube Music\n\n> ", 2);
+
+            if(registeredServices.get(serviceId).equals("SAAVN")) {
+                cli = new SaavnCLI(browser);
+            } else if (registeredServices.get(serviceId).equals("YTMUSIC")) {
+                cli = new YTMusicCLI(browser);
             }
 
-            System.out.println("\nWelcome to Saavn CLI! 🙌\n\nWhat would you like to listen today? 😁\n");
-
-            Scanner sc = new Scanner(System.in);
-            SaavnCLI cli = new SaavnCLI(browser);
             String query = ApplicationUtils.getSongName(sc);
             System.out.println("\nSearching for " + query + "\n");
             List<Song> results = cli.search(query);
@@ -54,7 +62,7 @@ public class Saavn {
                     "'8' : Lyrics for Current Song...\n" +
                     "'9' : Download current song...\n" +
                     "'10' : Share this song...\n" +
-                    "'11' : Close Saavn\n" +
+                    "'11' : Close "+ cli.getClass().getSimpleName() +"\n" +
                     "\nEnter your choice...\n> ";
 
             while (true) {
@@ -85,7 +93,7 @@ public class Saavn {
                         break;
                     case 5:
                         cli.updateCurrentSong();
-                        String secs = ApplicationUtils.getUserTimeInSeconds(sc, cli.currentSong);
+                        String secs = SaavnUtils.getUserTimeInSeconds(sc, cli.getCurrentSong());
                         cli.seek(secs);
                         cli.displaySongInfo();
                         break;
@@ -101,12 +109,14 @@ public class Saavn {
                         break;
                     case 8:
                         cli.updateCurrentSong();
-                        String lyricsQuery = ApplicationUtils.getSearchQuery(cli.currentSong.getSongName(), cli.currentSong.getArtistName());
-                        SongLyrics.printLyrics(browser, lyricsQuery);
+                        String lyricsQuery = ApplicationUtils.getSearchQuery(cli.getCurrentSong().getSongName(),
+                                cli.getCurrentSong().getArtistName());
+                        SongLyrics.printLyrics(browser, lyricsQuery, cli.getClass().getSimpleName());
                         break;
                     case 9:
                         cli.updateCurrentSong();
-                        String ytQuery = ApplicationUtils.getSearchQuery(cli.currentSong.getSongName(), cli.currentSong.getArtistName());
+                        String ytQuery = ApplicationUtils.getSearchQuery(cli.getCurrentSong().getSongName(),
+                                cli.getCurrentSong().getArtistName());
                         String url = YoutubeBrowser.searchYoutubeResults(ytQuery);
                         YoutubeBrowser.downloadVideo(url);
                         break;
@@ -117,6 +127,7 @@ public class Saavn {
                         throw new Exception("QUIT");
                     case 50:
                         ApplicationUtils.takeErrorScreenshot(browser);
+                        break;
                     default:
                         System.out.println("Nice!");
                 }

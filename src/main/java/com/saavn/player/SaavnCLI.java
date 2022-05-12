@@ -1,8 +1,11 @@
-package com.saavncli.player;
+package com.saavn.player;
 
-import com.saavncli.constants.UIConstants;
-import com.saavncli.model.Song;
-import com.saavncli.utils.ApplicationUtils;
+import com.cliplayer.constants.AppConstants;
+import com.cliplayer.model.Song;
+import com.cliplayer.player.GenericWebPlayer;
+import com.cliplayer.utils.ApplicationUtils;
+import com.saavn.player.constants.UIConstants;
+import com.saavn.player.utils.SaavnUtils;
 import org.openqa.selenium.*;
 
 import javax.annotation.Nonnull;
@@ -11,7 +14,6 @@ import java.util.stream.Collectors;
 
 public class SaavnCLI implements GenericWebPlayer {
     private static final String BASE_URL = "https://jiosaavn.com";
-    private static final Integer MAX_RESULTS = 5;
 
     private final WebDriver browser;
     private final JavascriptExecutor executor;
@@ -28,40 +30,43 @@ public class SaavnCLI implements GenericWebPlayer {
     public SaavnCLI(WebDriver browser) {
         this.browser = browser;
         this.executor = (JavascriptExecutor) this.browser;
-        this.browser.get(BASE_URL);
     }
 
     public List<Song> search(String query) {
         String url = String.format(BASE_URL + "/search/%s", query);
         this.browser.get(url);
 
-        return this.browser.findElements(By.cssSelector(UIConstants.SEARCH_PAGE.SEARCH_RESULTS))
+        return this.browser.findElements(By.cssSelector(UIConstants.SAAVN.SEARCH_PAGE.SEARCH_RESULTS))
                 .stream()
-                .limit(MAX_RESULTS)
-                .map(ApplicationUtils::mapSearchResult)
+                .limit(AppConstants.MAX_SEARCH_RESULTS)
+                .map(SaavnUtils::mapSearchResult)
                 .collect(Collectors.toList());
     }
 
     public void initializePlayer(Song song) {
         this.clickButtons(song.getContextMenu());
-        this.browser.findElement(By.cssSelector(UIConstants.SEARCH_PAGE.PLAY_NOW)).click();
+        this.browser.findElement(By.cssSelector(UIConstants.SAAVN.SEARCH_PAGE.PLAY_NOW)).click();
 
         this.updateCurrentSong();
-        this.PLAY_PAUSE_BUTTON = this.browser.findElement(By.cssSelector(UIConstants.PLAYER.PLAY_PAUSE_BUTTON));
-        this.REPEAT_BUTTON = this.browser.findElement(By.cssSelector(UIConstants.PLAYER.REPEAT_BUTTON));
-        this.NEXT_BUTTON = this.browser.findElement(By.cssSelector(UIConstants.PLAYER.NEXT_BUTTON));
-        this.PREVIOUS_BUTTON = this.browser.findElement(By.cssSelector(UIConstants.PLAYER.PREVIOUS_BUTTON));
+        this.PLAY_PAUSE_BUTTON = this.browser.findElement(By.cssSelector(UIConstants.SAAVN.PLAYER.PLAY_PAUSE_BUTTON));
+        this.REPEAT_BUTTON = this.browser.findElement(By.cssSelector(UIConstants.SAAVN.PLAYER.REPEAT_BUTTON));
+        this.NEXT_BUTTON = this.browser.findElement(By.cssSelector(UIConstants.SAAVN.PLAYER.NEXT_BUTTON));
+        this.PREVIOUS_BUTTON = this.browser.findElement(By.cssSelector(UIConstants.SAAVN.PLAYER.PREVIOUS_BUTTON));
 
         new Thread(() -> {
             while(true){
                 try {
-                    int currVol = Integer.parseInt(this.executor.executeScript(UIConstants.JS.GET_MAX_VOLUME).toString());
+                    int currVol = Integer.parseInt(this.executor.executeScript(UIConstants.SAAVN.JS.GET_MAX_VOLUME).toString());
                     if(currVol != 100)
-                        this.executor.executeScript(UIConstants.JS.SET_MAX_VOLUME);
+                        this.executor.executeScript(UIConstants.SAAVN.JS.SET_MAX_VOLUME);
                     Thread.sleep(10000);
                 } catch (Exception e) {}
             }
         }).start();
+    }
+
+    public Song getCurrentSong() {
+        return this.currentSong;
     }
 
     public void togglePlayPause() {
@@ -117,16 +122,16 @@ public class SaavnCLI implements GenericWebPlayer {
     }
 
     public void updateCurrentSong() {
-        String songName = this.browser.findElement(By.cssSelector(UIConstants.PLAYER.SONG_NAME)).getAttribute("title");
-        String artistName = this.browser.findElement(By.cssSelector(UIConstants.PLAYER.ARTIST_NAME)).getText();
-        String songLink = this.browser.findElement(By.cssSelector(UIConstants.PLAYER.SONG_NAME)).getAttribute("href");
-        String time = this.browser.findElement(By.cssSelector(UIConstants.PLAYER.TIME)).getText();
+        String songName = this.browser.findElement(By.cssSelector(UIConstants.SAAVN.PLAYER.SONG_NAME)).getAttribute("title");
+        String artistName = this.browser.findElement(By.cssSelector(UIConstants.SAAVN.PLAYER.ARTIST_NAME)).getText();
+        String songLink = this.browser.findElement(By.cssSelector(UIConstants.SAAVN.PLAYER.SONG_NAME)).getAttribute("href");
+        String time = this.browser.findElement(By.cssSelector(UIConstants.SAAVN.PLAYER.TIME)).getText();
 
         this.currentSong = new Song(songName,artistName, time,songLink,null);
     }
 
     public void seek(String seconds) {
-        String command = String.format(UIConstants.JS.SEEK_TIME, seconds);
+        String command = String.format(UIConstants.SAAVN.JS.SEEK_TIME, seconds);
         this.executor.executeScript(command);
     }
 
