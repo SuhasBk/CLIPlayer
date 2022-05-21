@@ -26,12 +26,12 @@ public class CLIPlayer {
         try {
             browser = BackgroundBrowser.getEdge(args.length != 0);
 
-            System.out.println("\nWelcome to CLI Music Player! 🙌");
+            System.out.println("\n🙌 Welcome to CLI Music Player! 🙌");
 
             int serviceId = ApplicationUtils.getIntegerInput(sc,
-                    "\n\nService, service which service do you choose? 😁\n" +
-                    "'1' : Saavn\n" +
-                    "'2' : YouTube Music\n\n> ", 2);
+                    "\n\nService, service which service do you choose?\n\n" +
+                    "'1' : Saavn (ad-free 🥳) \n" +
+                    "'2' : YouTube Music (w/ ads 😅)\n\n> ", 2);
 
             if(registeredServices.get(serviceId).equals("SAAVN")) {
                 cli = new SaavnCLI(browser);

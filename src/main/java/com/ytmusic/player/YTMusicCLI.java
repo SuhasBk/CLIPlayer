@@ -141,7 +141,7 @@ public class YTMusicCLI implements GenericWebPlayer {
                 this.currentSong = new Song(songName, artistName, time, songLink, null);
                 updated = true;
             } catch (Exception e) {
-                System.out.println("Waiting for ads to finish 🙈");
+                System.out.println("Waiting for ads to finish 🫠");
                 ApplicationUtils.sleep(10D);
                 this.updateCurrentSong();
             }
@@ -161,6 +161,6 @@ public class YTMusicCLI implements GenericWebPlayer {
     }
 
     public void clickButtons(@Nonnull WebElement element) {
-        ApplicationUtils.clickWebElement(this.executor, element, 1.3D);
+        ApplicationUtils.clickWebElement(this.executor, element, 1D);
     }
 }

@@ -25,7 +25,12 @@ public class ApplicationUtils {
     }
     public static String getSongName(Scanner sc) {
         System.out.print("Enter the song name:\n> ");
-        return sc.nextLine();
+        String query = sc.nextLine();
+        while(query.length() == 0) {
+            System.out.print("\nSorry, come again? 😅\n> ");
+            query = sc.nextLine();
+        }
+        return query;
     }
 
     public static Integer getIntegerInput(Scanner sc, String prompt) {
