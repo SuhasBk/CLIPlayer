@@ -1,5 +1,6 @@
 package com.cliplayer;
 
+import com.cliplayer.constants.AppConstants;
 import com.cliplayer.model.Song;
 import com.cliplayer.player.GenericWebPlayer;
 import com.cliplayer.utils.ApplicationUtils;
@@ -26,6 +27,7 @@ public class CLIPlayer {
         try {
             browser = BackgroundBrowser.getEdge(args.length != 0);
 
+            System.out.println(AppConstants.CLEAR_SCREEN);
             System.out.println("\n🙌 Welcome to CLI Music Player! 🙌");
 
             int serviceId = ApplicationUtils.getIntegerInput(sc,
