@@ -25,7 +25,11 @@ public class CLIPlayer {
         Map registeredServices = ApplicationUtils.getRegisteredServices();
 
         try {
-            browser = BackgroundBrowser.getEdge(args.length != 0);
+            if(AppConstants.DOCKERIZED) {
+                browser = BackgroundBrowser.getDockerBrowser();
+            } else {
+                browser = BackgroundBrowser.getEdge(args.length != 0);
+            }
 
             System.out.println(AppConstants.CLEAR_SCREEN);
             System.out.println("\n🙌 Welcome to CLI Music Player! 🙌");
