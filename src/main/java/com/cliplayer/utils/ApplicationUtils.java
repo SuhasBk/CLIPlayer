@@ -1,23 +1,23 @@
 package com.cliplayer.utils;
 
-import com.cliplayer.constants.AppConstants;
-import com.cliplayer.player.GenericWebPlayer;
-import com.saavn.player.SaavnCLI;
-import com.ytmusic.player.YTMusicCLI;
-import org.apache.commons.io.FileUtils;
-import org.openqa.selenium.*;
-
 import java.io.File;
 import java.nio.file.Files;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.function.Supplier;
+
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
+import com.cliplayer.constants.AppConstants;
 
 public class ApplicationUtils {
 
-    public static Map getRegisteredServices() {
+    public static Map<Integer, String> getRegisteredServices() {
         Map<Integer, String> services = new HashMap<>();
         services.put(1, "SAAVN");
         services.put(2, "YTMUSIC");

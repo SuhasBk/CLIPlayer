@@ -1,13 +1,12 @@
 package com.cliplayer.utils;
 
-import com.saavn.player.utils.SaavnUtils;
-import org.jsoup.Jsoup;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.jsoup.Jsoup;
 
 public class YoutubeBrowser {
 

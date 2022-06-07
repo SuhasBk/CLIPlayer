@@ -1,20 +1,21 @@
 package com.cliplayer;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+
+import org.openqa.selenium.WebDriver;
+
 import com.cliplayer.constants.AppConstants;
 import com.cliplayer.model.Song;
 import com.cliplayer.player.GenericWebPlayer;
 import com.cliplayer.utils.ApplicationUtils;
-import com.saavn.player.SaavnCLI;
-import com.saavn.player.utils.SaavnUtils;
 import com.cliplayer.utils.BackgroundBrowser;
 import com.cliplayer.utils.SongLyrics;
 import com.cliplayer.utils.YoutubeBrowser;
+import com.saavn.player.SaavnCLI;
+import com.saavn.player.utils.SaavnUtils;
 import com.ytmusic.player.YTMusicCLI;
-import org.openqa.selenium.WebDriver;
-
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
 
 public class CLIPlayer {
 
@@ -22,7 +23,7 @@ public class CLIPlayer {
         GenericWebPlayer cli = null;
         Scanner sc = new Scanner(System.in);
         WebDriver browser = null;
-        Map registeredServices = ApplicationUtils.getRegisteredServices();
+        Map<Integer, String> registeredServices = ApplicationUtils.getRegisteredServices();
 
         try {
             if(AppConstants.DOCKERIZED) {

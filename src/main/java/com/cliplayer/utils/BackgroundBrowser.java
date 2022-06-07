@@ -1,7 +1,7 @@
 package com.cliplayer.utils;
 
-import com.cliplayer.constants.AppConstants;
-import io.github.bonigarcia.wdm.WebDriverManager;
+import java.time.Duration;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -10,7 +10,9 @@ import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 
-import java.util.concurrent.TimeUnit;
+import com.cliplayer.constants.AppConstants;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class BackgroundBrowser {
 
@@ -33,7 +35,7 @@ public class BackgroundBrowser {
             options.addArguments(String.format("--user-agent=%s", AppConstants.USER_AGENT));
 
             browser = new ChromeDriver(options);
-            browser.manage().timeouts().implicitlyWait(TIMEOUT, TimeUnit.SECONDS);
+            browser.manage().timeouts().implicitlyWait(Duration.ofSeconds(TIMEOUT));
         } catch(Exception e) {
             System.out.println("\n Can't start the application. Browser driver issues. \n Ciao.\n\n" + e);
             System.exit(1);
@@ -59,7 +61,7 @@ public class BackgroundBrowser {
                 browser.manage().window().maximize();
             }
 
-            browser.manage().timeouts().implicitlyWait(TIMEOUT, TimeUnit.SECONDS);
+            browser.manage().timeouts().implicitlyWait(Duration.ofSeconds(TIMEOUT));
         } catch(Exception e) {
             System.out.println("\n Can't start the application. Browser driver issues. \n Ciao.\n\n" + e);
             System.exit(1);
@@ -85,7 +87,7 @@ public class BackgroundBrowser {
                 browser.manage().window().maximize();
             }
 
-            browser.manage().timeouts().implicitlyWait(TIMEOUT, TimeUnit.SECONDS);
+            browser.manage().timeouts().implicitlyWait(Duration.ofSeconds(TIMEOUT));
         } catch(Exception e) {
             System.out.println("\n Can't start the application. Browser driver issues. \n Ciao.\n\n" + e);
             System.exit(1);
@@ -111,7 +113,7 @@ public class BackgroundBrowser {
                 browser.manage().window().maximize();
             }
 
-            browser.manage().timeouts().implicitlyWait(TIMEOUT, TimeUnit.SECONDS);
+            browser.manage().timeouts().implicitlyWait(Duration.ofSeconds(TIMEOUT));
         } catch(Exception e) {
             System.out.println("\n Can't start the application. Browser driver issues. \n Ciao.\n\n" + e);
             System.exit(1);

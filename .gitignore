@@ -3,6 +3,7 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=gradle
 
 ### Gradle ###
+**/bin/
 .gradle
 **/build/
 !src/**/build/
