@@ -77,6 +77,7 @@ public class BackgroundBrowser {
             WebDriverManager.firefoxdriver().setup();
 
             if(!debug) {
+                System.setProperty(FirefoxDriver.SystemProperty.BROWSER_LOGFILE, "/dev/null");
                 browser = new FirefoxDriver(new FirefoxOptions()
                         .setHeadless(true)
                         .addArguments("-height 1400")

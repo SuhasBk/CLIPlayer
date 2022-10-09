@@ -29,7 +29,7 @@ public class CLIPlayer {
             if(AppConstants.DOCKERIZED) {
                 browser = BackgroundBrowser.getDockerBrowser();
             } else {
-                browser = BackgroundBrowser.getEdge(args.length != 0);
+                browser = BackgroundBrowser.getFirefox(args.length != 0);
             }
 
             System.out.println(AppConstants.CLEAR_SCREEN);
