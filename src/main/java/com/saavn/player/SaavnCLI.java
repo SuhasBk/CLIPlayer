@@ -1,16 +1,20 @@
 package com.saavn.player;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.ElementClickInterceptedException;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
 import com.cliplayer.constants.AppConstants;
 import com.cliplayer.model.Song;
 import com.cliplayer.player.GenericWebPlayer;
 import com.cliplayer.utils.ApplicationUtils;
 import com.saavn.player.constants.UIConstants;
 import com.saavn.player.utils.SaavnUtils;
-import org.openqa.selenium.*;
-
-import javax.annotation.Nonnull;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class SaavnCLI implements GenericWebPlayer {
     private static final String BASE_URL = "https://jiosaavn.com";
@@ -135,7 +139,7 @@ public class SaavnCLI implements GenericWebPlayer {
         this.executor.executeScript(command);
     }
 
-    public void clickButtons(@Nonnull WebElement element) {
+    public void clickButtons(WebElement element) {
         ApplicationUtils.clickWebElement(this.executor, element);
     }
 

@@ -1,7 +1,11 @@
 package com.cliplayer.utils;
 
 import com.saavn.player.constants.UIConstants;
+
+import java.util.Optional;
+
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Element;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -38,17 +42,21 @@ public class SongLyrics {
     }
 
     public static String thirdPartyLyrics(String query) throws Exception {
-        String first = Jsoup.connect("https://search.azlyrics.com/search.php?q=" + query)
+        Element body = Jsoup.connect("https://search.azlyrics.com/search.php?q=" + query)
                 .get()
                 .body()
-                .selectFirst(UIConstants.SAAVN.LYRICS.SEARCH_RESULTS_LINKS)
-                .getElementsByTag("a")
-                .first()
-                .attr("href");
+                .selectFirst(UIConstants.SAAVN.LYRICS.SEARCH_RESULTS_LINKS);
 
-        return Jsoup.connect(first)
-                .get()
-                .select(UIConstants.SAAVN.LYRICS.LYRICS_DIV).get(4)
-                .wholeText();
+        if(body != null) {
+            Element first = body
+                    .getElementsByTag("a")
+                    .first();
+
+            return Jsoup.connect(Optional.ofNullable(first).orElse(new Element("a")).attr("href"))
+                    .get()
+                    .select(UIConstants.SAAVN.LYRICS.LYRICS_DIV).get(4)
+                    .wholeText();
+        }
+        return "";
     }
 }

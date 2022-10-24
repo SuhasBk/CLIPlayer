@@ -1,16 +1,21 @@
 package com.ytmusic.player;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.ElementClickInterceptedException;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
 import com.cliplayer.constants.AppConstants;
 import com.cliplayer.model.Song;
 import com.cliplayer.player.GenericWebPlayer;
 import com.cliplayer.utils.ApplicationUtils;
 import com.ytmusic.player.constants.UIConstants;
 import com.ytmusic.player.utils.YTUtils;
-import org.openqa.selenium.*;
-
-import javax.annotation.Nonnull;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class YTMusicCLI implements GenericWebPlayer {
 
@@ -160,7 +165,7 @@ public class YTMusicCLI implements GenericWebPlayer {
         System.out.println("\n👐 Share this link: " + link +" 👐\n");
     }
 
-    public void clickButtons(@Nonnull WebElement element) {
+    public void clickButtons(WebElement element) {
         ApplicationUtils.clickWebElement(this.executor, element, 1D);
     }
 }

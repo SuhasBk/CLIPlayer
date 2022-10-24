@@ -20,7 +20,7 @@ import com.ytmusic.player.YTMusicCLI;
 public class CLIPlayer {
 
     public static void main(String[] args) {
-        GenericWebPlayer cli = null;
+        GenericWebPlayer cli;
         Scanner sc = new Scanner(System.in);
         WebDriver browser = null;
         Map<Integer, String> registeredServices = ApplicationUtils.getRegisteredServices();
@@ -39,11 +39,18 @@ public class CLIPlayer {
                     "\n\nService, service which service do you choose?\n\n" +
                     "'1' : Saavn (ad-free 🥳) \n" +
                     "'2' : YouTube Music (w/ ads 😅)\n\n> ", 2);
+            
+            String service = registeredServices.get(serviceId).toUpperCase();
 
-            if(registeredServices.get(serviceId).equals("SAAVN")) {
-                cli = new SaavnCLI(browser);
-            } else if (registeredServices.get(serviceId).equals("YTMUSIC")) {
-                cli = new YTMusicCLI(browser);
+            switch(service) {
+                case "SAAVN":
+                    cli = new SaavnCLI(browser);
+                    break;
+                case "YTMUSIC":
+                    cli = new YTMusicCLI(browser);
+                    break;
+                default:
+                    cli = new SaavnCLI(browser);
             }
 
             String query = ApplicationUtils.getSongName(sc);
