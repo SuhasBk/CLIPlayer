@@ -42,15 +42,10 @@ public class CLIPlayer {
             
             String service = registeredServices.get(serviceId).toUpperCase();
 
-            switch(service) {
-                case "SAAVN":
-                    cli = new SaavnCLI(browser);
-                    break;
-                case "YTMUSIC":
-                    cli = new YTMusicCLI(browser);
-                    break;
-                default:
-                    cli = new SaavnCLI(browser);
+            if(service.equals("SAAVN")) {
+                cli = new SaavnCLI(browser);
+            } else {
+                cli = new YTMusicCLI(browser);
             }
 
             String query = ApplicationUtils.getSongName(sc);
