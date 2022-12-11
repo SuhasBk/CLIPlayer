@@ -29,16 +29,32 @@ public class CLIPlayer {
             if(AppConstants.DOCKERIZED) {
                 browser = BackgroundBrowser.getDockerBrowser();
             } else {
-                browser = BackgroundBrowser.getFirefox(args.length != 0);
+                int preferredBrowser = ApplicationUtils.getIntegerInput(sc, 
+                """
+                    Enter your browser:
+
+                    '1' : Firefox
+                    '2' : Chrome
+
+                > """, 2);
+
+                switch(preferredBrowser) {
+                    case 1 -> browser = BackgroundBrowser.getFirefox(args.length != 0);
+                    case 2 -> browser = BackgroundBrowser.getChrome(args.length != 0);
+                }
             }
 
             System.out.println(AppConstants.CLEAR_SCREEN);
             System.out.println("\n🙌 Welcome to CLI Music Player! 🙌");
 
             int serviceId = ApplicationUtils.getIntegerInput(sc,
-                    "\n\nService, service which service do you choose?\n\n" +
-                    "'1' : Saavn (ad-free 🥳) \n" +
-                    "'2' : YouTube Music (w/ ads 😅)\n\n> ", 2);
+                    """
+                    Service, service which service do you choose?
+
+                    '1' : Saavn
+                    '2' : YouTube Music
+
+                    > """, 2);
             
             String service = registeredServices.get(serviceId).toUpperCase();
 
@@ -150,6 +166,7 @@ public class CLIPlayer {
                 System.out.println("Thank you for using this software. Keep rockin' 🤘 🎸");
         } finally {
             if(browser != null) browser.quit();
+            ApplicationUtils.cleanUpExtensions();
             System.exit(0);
         }
     }

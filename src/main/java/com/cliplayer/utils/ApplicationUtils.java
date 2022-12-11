@@ -1,6 +1,10 @@
 package com.cliplayer.utils;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
@@ -94,5 +98,46 @@ public class ApplicationUtils {
     public static void clickWebElement(JavascriptExecutor executor, WebElement element, Double suspendTime) {
         executor.executeScript(AppConstants.CLICK_COMMAND, element);
         sleep(suspendTime);
+    }
+
+    public static void downloadFileFromUrl(String fileUrl, File destFile) throws Exception {
+        URL url = new URL(fileUrl);
+        try (BufferedInputStream bis = new BufferedInputStream(url.openStream());
+            FileOutputStream fis = new FileOutputStream(destFile);) {
+            byte[] buffer = new byte[1024];
+            int count = 0;
+            while ((count = bis.read(buffer, 0, 1024)) != -1) {
+                fis.write(buffer, 0, count);
+            }
+        }
+    }
+
+    public static String getUserOS() {
+        String os = System.getProperty("os.name").toLowerCase();
+        if (os.indexOf("mac") != -1) {
+            return "MAC";
+        } else if (os.indexOf("win") != -1) {
+            return "WIN";
+        } else {
+            return "OTHER";
+        }
+    }
+    public static String getOSNullPath() {
+        String path = null;
+        switch(getUserOS()) {
+            case "WIN" -> path = "NUL";
+            default -> path = "/dev/null";
+        }
+        return path;
+    }
+    public static void cleanUpExtensions() {
+        File currDir = new File(".");
+        for (File file : currDir.listFiles(file -> file.getName().endsWith(".xpi") || file.getName().endsWith(".crx"))) {
+            try {
+                Files.delete(file.toPath());
+            } catch (IOException e) {
+                throw new RuntimeException();
+            }
+        }
     }
 }
