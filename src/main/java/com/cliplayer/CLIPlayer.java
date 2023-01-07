@@ -29,18 +29,22 @@ public class CLIPlayer {
             if(AppConstants.DOCKERIZED) {
                 browser = BackgroundBrowser.getDockerBrowser();
             } else {
-                int preferredBrowser = ApplicationUtils.getIntegerInput(sc, 
-                """
-                    Enter your browser:
+                if(AppConstants.USERNAME.equals("gandalf")) {
+                    browser = BackgroundBrowser.getChrome(args.length != 0);
+                } else {
+                    int preferredBrowser = ApplicationUtils.getIntegerInput(sc,
+                        """
+                        Enter your browser:
 
-                    '1' : Firefox
-                    '2' : Chrome
+                        '1' : Firefox
+                        '2' : Chrome
 
-                > """, 2);
+                        > """, 2);
 
-                switch(preferredBrowser) {
-                    case 1 -> browser = BackgroundBrowser.getFirefox(args.length != 0);
-                    case 2 -> browser = BackgroundBrowser.getChrome(args.length != 0);
+                    switch (preferredBrowser) {
+                        case 1 -> browser = BackgroundBrowser.getFirefox(args.length != 0);
+                        case 2 -> browser = BackgroundBrowser.getChrome(args.length != 0);
+                    }
                 }
             }
 
