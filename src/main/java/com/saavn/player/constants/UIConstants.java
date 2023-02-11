@@ -5,6 +5,7 @@ public interface UIConstants {
     interface SAAVN {
         interface SEARCH_PAGE
         {
+            String SEARCH_BAR = ".rbt-input-main";
             String SEARCH_RESULTS = "article.o-snippet--draggable";
             String SONG_NAME = "h4>a";
             String ARTIST_NAME = "p>a";

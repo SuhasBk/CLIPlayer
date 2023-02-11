@@ -3,11 +3,7 @@ package com.saavn.player;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.ElementClickInterceptedException;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 
 import com.cliplayer.constants.AppConstants;
 import com.cliplayer.model.Song;
@@ -37,8 +33,19 @@ public class SaavnCLI implements GenericWebPlayer {
     }
 
     public List<Song> search(String query) {
-        String url = String.format(BASE_URL + "/search/%s", query);
+        String url = String.format(BASE_URL);
         this.browser.get(url);
+
+        WebElement searchBar = this.browser.findElement(By.cssSelector(UIConstants.SAAVN.SEARCH_PAGE.SEARCH_BAR));
+        searchBar.sendKeys(query);
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        searchBar.sendKeys(Keys.ENTER);
 
         return this.browser.findElements(By.cssSelector(UIConstants.SAAVN.SEARCH_PAGE.SEARCH_RESULTS))
                 .stream()
